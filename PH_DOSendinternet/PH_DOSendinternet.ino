@@ -23,7 +23,7 @@ byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 byte ip[] = { 172, 16, 13, 177 };
 byte gateway[] = { 172, 16, 13, 2 };
 //byte server[] = { 45, 55, 150, 245 }; // IP Publico del servidor WAPOSAT
-byte server[] = { 172, 16, 13, 11 }; // IPServidor LAN
+byte server[] = { 172, 16, 13, 15 }; // IPServidor LAN
 
 
 boolean lastConnected = false;                 // state of the connection last time through the main loop
