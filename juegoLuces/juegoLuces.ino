@@ -47,13 +47,6 @@ void setup()
 
 void loop()
 {
-        
-//-----------------------conectando al servidor--------------------------------------------------------  
-  //Serial.println("Conectando...");
-  // if there's incoming data from the net connection.
-  // send it out the serial port.  This is for debugging
-  // purposes only:
-  
   if (client.available()) {
     char c = client.read();
     Serial.print(c);
@@ -66,16 +59,16 @@ void loop()
     client.stop();
   }
  
-  // if you're not connected, and ten seconds have passed since
-  // your last connection, then connect again and send data:
-  //if(!client.connected() && (millis() - lastConnectionTime > postingInterval)) {
   if(!client.connected()) {  
     httpRequest();
   }
+  LecturaSensores();
+  
+  juego();
   // store the state of the connection for next time through
   // the loop:
   lastConnected = client.connected();
-
+  delay(500);
 }
 
 //----------------funcion de coneccion al canal 1------------------------------------------------------------------
@@ -99,7 +92,7 @@ void httpRequest() {
     LecturaSensores();
     // send the HTTP PUT request:
     //client.print("GET /index/Template/InsertData2.php?equipo=5&sensor1=1&sensor2=3&valor1="); // Envia los datos utilizando GET
-    client.print("GET /WAPOSAT2/Template/InsertData2.php?equipo=5&sensor1=1&sensor2=3&valor1="); // Envia los datos LAN
+    client.print("GET /WAPOSAT/Template/InsertData2.php?equipo=5&sensor1=1&sensor2=3&valor1="); // Envia los datos LAN
     client.print(sensordata1);
     client.print("&valor2=");
     client.print(sensordata2);
@@ -109,7 +102,7 @@ void httpRequest() {
     myserial.flush();
     // note the time that the connection was made:
     //lastConnectionTime = millis()/1000;
-    delay(1000);
+    delay(5000);
   } 
   else {
     // if you couldn't make a connection:
@@ -123,7 +116,7 @@ void httpRequest() {
 void LecturaSensores() {
   //-----------------------sensor de pH------------------------------------------------------------------  
       open_channel1();                            //Call the function "open_channel" to open the correct data path
-      delay(1000);
+      delay(500);
       myserial.print('r');                      //Send the command from the computer to the Atlas Scientific device using the softserial port                                     
       myserial.print("\r");
        
@@ -133,7 +126,7 @@ void LecturaSensores() {
        
   //-----------------------sensor de DO------------------------------------------------------------------  
       open_channel2();                            //Call the function "open_channel" to open the correct data path
-      delay(1000);
+      delay(500);
       myserial.print('r');                      //Send the command from the computer to the Atlas Scientific device using the softserial port                                     
       myserial.print("\r");
        
@@ -142,3 +135,31 @@ void LecturaSensores() {
       Serial.println(sensordata2);
   
 }
+
+void juego() {
+  digitalWrite(Pin_x, LOW);
+  digitalWrite(Pin_y, LOW);
+  myserial.print("L,0");
+  myserial.print("\r");
+  delay(300);
+  myserial.print("L,1");
+  myserial.print("\r");
+  delay(300);
+  myserial.print("R");
+  myserial.print("\r");
+  delay(100);
+  
+  digitalWrite(Pin_x, LOW);
+  digitalWrite(Pin_y, HIGH);
+  myserial.print("L,0");
+  myserial.print("\r");
+  delay(300);
+  myserial.print("L,1");
+  myserial.print("\r");
+  delay(300);
+  myserial.print("R");
+  myserial.print("\r");
+  delay(100);
+  
+}
+

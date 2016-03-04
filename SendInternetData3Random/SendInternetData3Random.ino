@@ -62,7 +62,7 @@ void httpRequest() {
   if (client.connect(server, 80)) {
     Serial.println("connecting...");
     // send the HTTP PUT request:
-    client.print("GET /index/Template/InsertData2.1.php?equipo=1&sensor1=1&sensor2=2"); // Envia los datos utilizando GET
+    client.print("GET /index/Template/InsertData3.1.php?equipo=1&sensor1=1&sensor2=2&sensor3=3"); // Envia los datos utilizando GET
     client.println(" HTTP/1.0");
     client.println();
     delay(1000);
